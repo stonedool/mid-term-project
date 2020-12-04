@@ -2,62 +2,39 @@ from bangtal import *
 
 setGameOption(GameOption.INVENTORY_BUTTON, False)
 setGameOption(GameOption.MESSAGE_BOX_BUTTON, False)
-scene1 = Scene('당근밭', 'images/scene.jpg')
-scene2 = Scene('토끼집', 'images/scene2.png')
 
-intro = Object('images/intro.png')
-quest = Object('images/quest.png')
-rabbit = Object('images/bunnybunny.png')
-carrot1 = Object('images/carrot.png')
-carrot2 = Object('images/carrot.png')
-carrot3 = Object('images/carrot.png')
-pot = Object('images/pot.png')
-fullpot = Object('images/fullpot.png')
-gg = Object('images/GG.png')
-up = Object('images/up.png')
-left = Object('images/left.png')
-down = Object('images/down.png')
-right = Object('images/right.png')
+Rat_House_Scene = Scene('집', 'images/Rat_House.jpg')
+Map1 = Scene('집 앞', 'images/House_Scene2.jpg')
+Rat = Object("images/MainChar1.png")
+bed = Object("images/RatBed.png")
+Flower_pot = Object("images/Flower_Pot.png")
 
-rabbit.carrotinventory = 0
-rabbit.x = 100
-rabbit.y = 100
-rabbit.scene = 1
+up = Object('images/Direction/up.png')
+left = Object('images/Direction/left.png')
+down = Object('images/Direction/down.png')
+right = Object('images/Direction/right.png')
 
-up.locate(scene1, 1000,120)
-left.locate(scene1, 930,50)
-down.locate(scene1, 1000,50)
-right.locate(scene1, 1100,50)
-rabbit.locate(scene1, rabbit.x,rabbit.y)
-carrot1.locate(scene1, 400, 400)
-carrot2.locate(scene1, 1000, 500)
-carrot3.locate(scene1, 600, 100)
-quest.locate(scene1, 620, 650)
-intro.locate(scene1, 10,0)
-pot.locate(scene2, 1060, 255)
-gg.locate(scene2,0,0)
+Rat.x = 300
+Rat.y = 300
+Rat.scene = 1
+Rat.locate(Rat_House_Scene,Rat.x,Rat.y); Rat.setScale(0.4) 
+bed.locate(Rat_House_Scene,800,100)
+Flower_pot.locate(Rat_House_Scene,100,100)
+up.locate(Rat_House_Scene, 1000,120); up.setScale(0.5)
+left.locate(Rat_House_Scene, 930,50); left.setScale(0.5)
+down.locate(Rat_House_Scene, 1000,50); down.setScale(0.5)
+right.locate(Rat_House_Scene, 1100,50); right.setScale(0.5)
 
-up.setScale(0.5)
-left.setScale(0.5)
-down.setScale(0.5)
-right.setScale(0.5)
-rabbit.setScale(0.5)
-carrot1.setScale(0.1)
-carrot2.setScale(0.1)
-carrot3.setScale(0.1)
+
+
 
 up.show()
 left.show()
 down.show()
 right.show()
-carrot1.show()
-carrot2.show()
-carrot3.show()
-rabbit.show()
-quest.show()
-
-
-
+Rat.show()
+bed.show()
+Flower_pot.show()
 
 def bunny_get_carrot(x,y,action):
     if(rabbit.x > 340 and rabbit.y >350 and rabbit.x < 450 and rabbit.y <450):# +-50-60정도씩 하면 괜찮은듯...
@@ -81,39 +58,41 @@ def bunny_get_carrot(x,y,action):
         left.locate(scene2, 930,50)
         down.locate(scene2, 1000,50)
         right.locate(scene2, 1100,50)
-        pot.show()
+        pot.show() #기존에 토끼가 당근을 줍는 코드입니다. 이번 게임에서는 생쥐가 치즈를 주을때 사용합시다. 
 
 def up_press(x,y,action):
-    rabbit.y = rabbit.y + 30
-    if rabbit.scene == 1:
-        rabbit.locate(scene1, rabbit.x, rabbit.y)
+    Rat.y = Rat.y + 30
+    if Rat.scene == 1:
+        Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
     else:
-        rabbit.locate(scene2, rabbit.x, rabbit.y)
+        Rat.locate(scene2, Rat.x, Rat.y)
     print('up')
 
 def left_press(x,y,action):
-    rabbit.x = rabbit.x - 30
-    if rabbit.scene == 1:
-        rabbit.locate(scene1, rabbit.x, rabbit.y)
+    Rat.x = Rat.x - 30
+    if Rat.scene == 1:
+        Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
     else: 
-        rabbit.locate(scene2, rabbit.x, rabbit.y)
+        Rat.locate(scene2, Rat.x, Rat.y)
     print('left')
 
 def right_press(x,y,action):
-    rabbit.x = rabbit.x + 30
-    if rabbit.scene == 1:
-        rabbit.locate(scene1, rabbit.x, rabbit.y)
+    Rat.x = Rat.x + 30
+    if Rat.scene == 1:
+        Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
     else:
-        rabbit.locate(scene2, rabbit.x, rabbit.y)
+        Rat.locate(scene2, Rat.x, Rat.y)
     print('right')
 
 def down_press(x,y,action):
-    rabbit.y = rabbit.y - 30
-    if rabbit.scene == 1:
-        rabbit.locate(scene1, rabbit.x, rabbit.y)
+    Rat.y = Rat.y - 30
+    if Rat.scene == 1:
+        Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
     else:
-        rabbit.locate(scene2, rabbit.x, rabbit.y)
+        rabbit.locate(scene2, Rat.x, Rat.y)
     print('down')
+
+#위 네가지 코드가 캐릭터의 이동을 결정합니다.
 
 def pot_press(x,y,action):
     if rabbit.x > 1000 and rabbit.y > 200 and rabbit.x < 1200 and rabbit.y < 350:
@@ -135,11 +114,11 @@ up.onMouseAction = up_press
 left.onMouseAction = left_press
 down.onMouseAction = down_press
 right.onMouseAction = right_press
-rabbit.onMouseAction = bunny_get_carrot
-pot.onMouseAction = pot_press
-quest.onMouseAction = quest_click
-intro.onMouseAction = intro_click
-gg.onMouseAction = GG_click
+#rabbit.onMouseAction = bunny_get_carrot
+#pot.onMouseAction = pot_press
+#quest.onMouseAction = quest_click
+#intro.onMouseAction = intro_click
+#gg.onMouseAction = GG_click
 
 
-startGame(scene1)
+startGame(Rat_House_Scene)
