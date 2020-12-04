@@ -4,11 +4,12 @@ setGameOption(GameOption.INVENTORY_BUTTON, False)
 setGameOption(GameOption.MESSAGE_BOX_BUTTON, False)
 
 Rat_House_Scene = Scene('집', 'images/Rat_House.jpg')
-Map1 = Scene('집 앞', 'images/House_Scene2.jpg')
+scene1 = Scene('집 앞', 'images/House_Scene2.jpg')
 Rat = Object("images/MainChar1.png")
 bed = Object("images/RatBed.png")
 Flower_pot = Object("images/Flower_Pot.png")
-
+Map_1 = Object("images/Map.png")
+Mini_Map = Object("images/Mini_Map.png")
 up = Object('images/Direction/up.png')
 left = Object('images/Direction/left.png')
 down = Object('images/Direction/down.png')
@@ -20,11 +21,12 @@ Rat.scene = 1
 Rat.locate(Rat_House_Scene,Rat.x,Rat.y); Rat.setScale(0.4) 
 bed.locate(Rat_House_Scene,800,100)
 Flower_pot.locate(Rat_House_Scene,100,100)
+Map_1.locate(Rat_House_Scene,10,10)
 up.locate(Rat_House_Scene, 1000,120); up.setScale(0.5)
 left.locate(Rat_House_Scene, 930,50); left.setScale(0.5)
 down.locate(Rat_House_Scene, 1000,50); down.setScale(0.5)
 right.locate(Rat_House_Scene, 1100,50); right.setScale(0.5)
-
+Mini_Map.locate(Rat_House_Scene, 1100, 600); Mini_Map.setScale(0.5)
 
 
 
@@ -35,6 +37,7 @@ right.show()
 Rat.show()
 bed.show()
 Flower_pot.show()
+Mini_Map.show()
 
 def bunny_get_carrot(x,y,action):
     if(rabbit.x > 340 and rabbit.y >350 and rabbit.x < 450 and rabbit.y <450):# +-50-60정도씩 하면 괜찮은듯...
@@ -93,19 +96,15 @@ def down_press(x,y,action):
     print('down')
 
 #위 네가지 코드가 캐릭터의 이동을 결정합니다.
+#else 케이스는 손을 좀 봐야 할것 같습니다. 
 
-def pot_press(x,y,action):
-    if rabbit.x > 1000 and rabbit.y > 200 and rabbit.x < 1200 and rabbit.y < 350:
-        pot.setImage('images/fullpot.png')
-        print("endgame")
-        showMessage("토끼는 맛있게 밥을 먹었습니다")
-        gg.show()
 
-def quest_click(x,y,action):
-    intro.show()
 
-def intro_click(x,y,action):
-    intro.hide()
+def Mini_Map_click(x,y,action):
+    Map_1.show()
+
+def Map_1_click(x,y,action):
+    Map_1.hide()
 
 def GG_click(x,y,action):
     endGame()
@@ -115,9 +114,8 @@ left.onMouseAction = left_press
 down.onMouseAction = down_press
 right.onMouseAction = right_press
 #rabbit.onMouseAction = bunny_get_carrot
-#pot.onMouseAction = pot_press
-#quest.onMouseAction = quest_click
-#intro.onMouseAction = intro_click
+Mini_Map.onMouseAction = Mini_Map_click
+Map_1.onMouseAction = Map_1_click
 #gg.onMouseAction = GG_click
 
 
