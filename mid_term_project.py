@@ -20,7 +20,7 @@ Flower_Pot_3 = Object("images/Flower_Pot.png")
 Map_1 = Object("images/Map.png")
 Mini_Map = Object("images/Mini_Map.png")
 Desk = Object("images/Desk.png")
-GG = Object("GG.png")
+GG = Object("images/GG.png")
 
 #trap (in Scene3)
 Trap_1 = Object("images/Trap.png")
@@ -68,7 +68,8 @@ Trap_3.locate(scene3,600,450)
 Trap_4.locate(scene3,100,500)
 Trap_5.locate(scene3,150,400)
 Flower_Pot_3.locate(scene3,100,100); Flower_Pot_3.setScale(0.8);
-GG.locate(scene3, 250, 100)
+
+
 
 #Scene4 관련 
 Cat.locate(scene4,600,100)
@@ -237,22 +238,27 @@ def On_Trap():
         #트랩이 있는 스테이지는 stage 3뿐이므로 이를 제외한 맵에서는 검사를 하지 않습니다.
         if Rat.x >= 450 and Rat.x <= 450+trapSize_x:
             if Rat.y >= 100 and Rat.y <= 100+trapSize_y:
+                GG.locate(scene3, 250, 100) # 생쥐보다 위에 이미지를 띄우기 위해서 모든 줄에 로케이트를 넣어줍니다. 
                 GG.show()
                 debug()
         elif Rat.x >= 650 and Rat.x <= 650+trapSize_x:
             if Rat.y >= 400 and Rat.y <= 400+trapSize_y:
+                GG.locate(scene3, 250, 100)
                 GG.show()
                 debug()
         elif Rat.x >= 550 and Rat.x <= 550+trapSize_x:
             if Rat.y >= 450 and Rat.y <= 450+trapSize_y:
+                GG.locate(scene3, 250, 100)
                 GG.show()
                 debug()
         elif Rat.x >= 50 and Rat.x <= 50+trapSize_x:
             if Rat.y >= 500 and Rat.y <= 500+trapSize_y:
+                GG.locate(scene3, 250, 100)
                 GG.show()
                 debug()
         elif Rat.x >= 100 and Rat.x <= 100+trapSize_x:
             if Rat.y >= 400 and Rat.y <= 400+trapSize_y:
+                GG.locate(scene3, 250, 100)
                 GG.show()
 
 # GG이미지가 뜨지 않는걸 수정해야됨. 
