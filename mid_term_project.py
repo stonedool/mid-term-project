@@ -12,7 +12,6 @@ Map_1 = Object("images/Map.png")
 Mini_Map = Object("images/Mini_Map.png")
 Desk = Object("images/Desk.png")
 
-
 up = Object('images/Direction/up.png')
 left = Object('images/Direction/left.png')
 down = Object('images/Direction/down.png')
@@ -21,7 +20,7 @@ right = Object('images/Direction/right.png')
 Rat.x = 950
 Rat.y = 300
 Rat.scene = 1
-Rat.scene_STAY = True
+Rat.scene_STAY = False
 
 bed.locate(Rat_House_Scene,800,100)
 Flower_pot.locate(Rat_House_Scene,100,100)
@@ -69,7 +68,7 @@ def bunny_get_carrot(x,y,action):
         right.locate(scene2, 1100,50)
         pot.show() #기존에 토끼가 당근을 줍는 코드입니다. 이번 게임에서는 생쥐가 치즈를 주을때 사용합시다. 
 
-def up_press(x,y,action):
+def up_press(x,y,action): #up /down /left/ right press 함수는 캐릭터의 이동을 결정하는 함수입니다. 하나의 함수로 구현할순 있지만 편의상 하나로 만들어 놓았습니다. 
     Rat.y = Rat.y + 30
     if Rat.scene == 1:
         Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
@@ -77,6 +76,7 @@ def up_press(x,y,action):
         Rat.locate(scene2, Rat.x, Rat.y)
     NextScene()
     print('up')
+    debug()
 
 def left_press(x,y,action):
     Rat.x = Rat.x - 30
@@ -86,6 +86,7 @@ def left_press(x,y,action):
         Rat.locate(scene2, Rat.x, Rat.y)
     NextScene()
     print('left')
+    debug()
 
 def right_press(x,y,action):
     Rat.x = Rat.x + 30
@@ -95,6 +96,7 @@ def right_press(x,y,action):
         Rat.locate(scene2, Rat.x, Rat.y)
     NextScene()
     print('right')
+    debug()
 
 def down_press(x,y,action):
     Rat.y = Rat.y - 30
@@ -104,6 +106,7 @@ def down_press(x,y,action):
         Rat.locate(scene2, Rat.x, Rat.y)
     NextScene()
     print('down')
+    debug()
 
 #위 네가지 코드가 캐릭터의 이동을 결정합니다.
 #else 케이스는 손을 좀 봐야 할것 같습니다. 
@@ -111,21 +114,39 @@ def down_press(x,y,action):
 
 def NextScene(): # 씬체인지 기능입니다. 
     if Rat.scene == 1:
-        if Rat.x >= 150 and Rat.x<=240:
-            if Rat.y >= 300 and Rat.y <= 450:
-                scene2.enter() #특정 위치에 도달하면 다음 씬으로 이동시킵니다. 
-                Rat.scene = 2
-                Rat.x = 700 ; Rat.y = 440; #해당 씬의서의 쥐의 위치를 적당한 위치에 위치하게 합니다.
-                Rat.locate(scene2, Rat.x, Rat.y)
-                Switch_ReLocate(scene2) # 방향키가 해당 씬에도 나타날수 있게 하는 함수입니다. 
-                pass
+        if Rat.scene_STAY == False:
+            if Rat.x >= 150 and Rat.x<=240:
+                if Rat.y >= 300 and Rat.y <= 450:
+                    scene2.enter() #특정 위치에 도달하면 다음 씬으로 이동시킵니다. 
+                    Rat.scene = 2
+                    Rat.x = 700 ; Rat.y = 440; #해당 씬의서의 생쥐의 위치를 적당한 위치에 위치하게 합니다.
+                    Rat.locate(scene2, Rat.x, Rat.y)
+                    Switch_ReLocate(scene2) # 방향키가 해당 씬에도 나타날수 있게 하는 함수입니다. 
+                    Rat.scene_STAY = True
+        elif Rat.scene_STAY == True:
+            Scene_Stay(150,240,300,450)
+            pass
     elif Rat.scene == 2:
+        if Rat.scene_STAY == False: #false 는 생쥐가 기존 씬에서 넘어온 후 다시 원래의 씬으로 돌아가지 않게 하는 변수입니다.
+                                    #해당 구간에 있을때는 true, 나가면 false로 설정합니다. 
+            if Rat.x >= 610 and Rat.x <= 760:
+                if Rat.y >= 420 and Rat.y <= 520:
+                    Rat_House_Scene.enter()
+                    Rat.scene = 1
+                    Rat.x = 200; Rat.y = 375;
+                    Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
+                    Switch_ReLocate(Rat_House_Scene)
+                    Rat.scene_STAY = True
+        elif Rat.scene_STAY == True:
+            Scene_Stay(610,760,420,520)
+
         pass
 def Switch_ReLocate(SceneName): # 방향키가 해당 씬에도 나타날수 있게 하는 함수입니다. 
-    up.locate(SceneName, 1000,120);
-    left.locate(SceneName, 930,50);
-    down.locate(SceneName, 1000,50);
-    right.locate(SceneName, 1100,50);
+
+    up.locate(SceneName, 1000,120)
+    left.locate(SceneName, 930,50)
+    down.locate(SceneName, 1000,50)
+    right.locate(SceneName, 1100,50)
 
 def Mini_Map_click(x,y,action): #화면 우측 위에 나오는 지도를 띄우기 위한 함수입니다. 클릭하면 지도가 열립니다. 
     Map_1.show()
@@ -136,14 +157,26 @@ def Map_1_click(x,y,action): #지도를닫기 위한 함수입니다. 클릭하�
 def GG_click(x,y,action): #미구현 기능입니다. 게임이 끝났다는것을 알리기 위한 기능입니다. 
     endGame()
 
+def Scene_Stay(x1,x2,y1,y2):
+    if Rat.x < x1 or Rat.x > x2 or Rat.y < y1 or Rat.y > y2: # 이전 씬에서 소환된 위치에서 벗어나면 위치를 벗어남을 인식합니다. 
+                                                             # 무한히 문을 드나드는것을 방지합니다. 
+        Rat.scene_STAY = False
+
+
 up.onMouseAction = up_press
 left.onMouseAction = left_press
 down.onMouseAction = down_press
 right.onMouseAction = right_press
-#rabbit.onMouseAction = bunny_get_carrot
 Mini_Map.onMouseAction = Mini_Map_click
 Map_1.onMouseAction = Map_1_click
 #gg.onMouseAction = GG_click
 
+def debug():
+    if Rat.scene_STAY == True:
+        print("True",  end = " ")
+        print(Rat.x, Rat.y)
+    elif Rat.scene_STAY == False:
+        print("False", end = " ")
+        print(Rat.x, Rat.y)
 
 startGame(Rat_House_Scene)
