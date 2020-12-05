@@ -3,21 +3,36 @@ from bangtal import *
 setGameOption(GameOption.INVENTORY_BUTTON, False)
 setGameOption(GameOption.MESSAGE_BOX_BUTTON, False)
 
+#Scene 
 Rat_House_Scene = Scene('집', 'images/Rat_House.jpg')
 scene2 = Scene('집 앞', 'images/House_Scene2.jpg')
+scene3 =Scene('주방 앞', 'images/House_Scene3.jpg')
+
+#Object
 Rat = Object("images/MainChar1.png")
 bed = Object("images/RatBed.png")
 Flower_pot = Object("images/Flower_Pot.png")
 Flower_Pot_2 = Object("images/Flower_Pot.png")
+Flower_Pot_3 = Object("images/Flower_Pot.png")
 Map_1 = Object("images/Map.png")
 Mini_Map = Object("images/Mini_Map.png")
 Desk = Object("images/Desk.png")
 
+
+#trap (in Scene3)
+Trap_1 = Object("images/Trap.png")
+Trap_2 = Object("images/Trap.png")
+Trap_3 = Object("images/Trap.png")
+Trap_4 = Object("images/Trap.png")
+Trap_5 = Object("images/Trap.png")
+
+#direction switch
 up = Object('images/Direction/up.png')
 left = Object('images/Direction/left.png')
 down = Object('images/Direction/down.png')
 right = Object('images/Direction/right.png')
 
+#Rat Variables
 Rat.x = 950
 Rat.y = 300
 Rat.scene = 1
@@ -40,49 +55,48 @@ Mini_Map.locate(Rat_House_Scene, 1100, 600); Mini_Map.setScale(0.5)
 #Scene2 관련 오브젝트 
 Flower_Pot_2.locate(scene2,1000,200) #때로는 화분 하나가 집의 분위기를 살리는 법이죠... 
 
+#Scene3 관련 오브젝트 
+trapSize_x = 137
+trapSize_y = 90
+
+Trap_1.locate(scene3,500,100)
+Trap_2.locate(scene3,700,400)
+Trap_3.locate(scene3,600,450)
+Trap_4.locate(scene3,100,500)
+Trap_5.locate(scene3,150,400)
+Flower_Pot_3.locate(scene3,100,100); Flower_Pot_3.setScale(0.8);
+
+
 Desk.show()
 bed.show()
-Flower_pot.show()
 Mini_Map.show()
+Flower_pot.show()
 Flower_Pot_2.show()
+Flower_Pot_3.show()
 Rat.show()
 up.show()
 left.show()
 down.show()
 right.show()
+Trap_1.show()
+Trap_2.show()
+Trap_3.show()
+Trap_4.show()
+Trap_5.show()
+#시간이 얼마 없습니다. 이악물고 하겠습니다. 
 
 
-def bunny_get_carrot(x,y,action):
-    if(rabbit.x > 340 and rabbit.y >350 and rabbit.x < 450 and rabbit.y <450):# +-50-60정도씩 하면 괜찮은듯...
-        rabbit.carrotinventory = rabbit.carrotinventory+1
-        carrot1.hide()
-    if(rabbit.x > 940 and rabbit.y >450 and rabbit.x < 1050 and rabbit.y <550):
-        rabbit.carrotinventory = rabbit.carrotinventory+1
-        carrot2.hide()
-    if(rabbit.x > 540 and rabbit.y >50 and rabbit.x < 650 and rabbit.y <150):
-        rabbit.carrotinventory = rabbit.carrotinventory+16
-        carrot3.hide()
-    print('carrot' , rabbit.x , rabbit. y)
-    if rabbit.x > 1050 and rabbit.x < 1190 and rabbit.y >420 and rabbit.y < 560 and rabbit.carrotinventory > 1: # scene2
-        print("scene2")
-        scene2.enter()
-        rabbit.x = 50
-        rabbit.y = 600
-        rabbit.scene = 2
-        rabbit.locate(scene2, rabbit.x, rabbit.y)
-        up.locate(scene2, 1000,120)
-        left.locate(scene2, 930,50)
-        down.locate(scene2, 1000,50)
-        right.locate(scene2, 1100,50)
-        pot.show() #기존에 토끼가 당근을 줍는 코드입니다. 이번 게임에서는 생쥐가 치즈를 주을때 사용합시다. 
 
-def up_press(x,y,action): #up /down /left/ right press 함수는 캐릭터의 이동을 결정하는 함수입니다. 하나의 함수로 구현할순 있지만 편의상 하나로 만들어 놓았습니다. 
+def up_press(x,y,action): #up /down /left/ right press 함수는 캐릭터의 이동을 결정하는 함수입니다.
     Rat.y = Rat.y + 30
     if Rat.scene == 1:
         Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
     elif Rat.scene == 2:
         Rat.locate(scene2, Rat.x, Rat.y)
+    elif Rat.scene ==3:
+        Rat.locate(scene3, Rat.x, Rat.y)
     NextScene()
+    On_Trap()
     print('up')
     debug()
 
@@ -92,7 +106,10 @@ def left_press(x,y,action):
         Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
     elif Rat.scene == 2:
         Rat.locate(scene2, Rat.x, Rat.y)
+    elif Rat.scene ==3:
+        Rat.locate(scene3, Rat.x, Rat.y)
     NextScene()
+    On_Trap()
     print('left')
     debug()
 
@@ -102,7 +119,10 @@ def right_press(x,y,action):
         Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
     elif Rat.scene == 2:
         Rat.locate(scene2, Rat.x, Rat.y)
+    elif Rat.scene ==3:
+        Rat.locate(scene3, Rat.x, Rat.y)
     NextScene()
+    On_Trap()
     print('right')
     debug()
 
@@ -112,7 +132,10 @@ def down_press(x,y,action):
         Rat.locate(Rat_House_Scene, Rat.x, Rat.y)
     elif Rat.scene == 2:
         Rat.locate(scene2, Rat.x, Rat.y)
+    elif Rat.scene ==3:
+        Rat.locate(scene3, Rat.x, Rat.y)
     NextScene()
+    On_Trap()
     print('down')
     debug()
 
@@ -162,6 +185,29 @@ def Switch_ReLocate(SceneName): # 방향키가 해당 씬에도 나타날수 있
     down.locate(SceneName, 1000,50)
     right.locate(SceneName, 1100,50)
 
+def On_Trap():
+
+    #트랩의 위치에 생쥐가 도달했는지를 판별합니다. 
+    #print문을 이벤트로 바꿀 예정입니다. 
+    if Rat.scene == 3: 
+        #트랩이 있는 스테이지는 stage 3뿐이므로 이를 제외한 맵에서는 검사를 하지 않습니다.
+        if Rat.x >= 500 and Rat.x <= 500+trapSize_x:
+            if Rat.y >= 100 and Rat.y <= 100+trapSize_y:
+                print("Rat Die!!!")
+        elif Rat.x >= 700 and Rat.x <= 700+trapSize_x:
+            if Rat.y >= 400 and Rat.y <= 400+trapSize_y:
+                print("Rat Die!!!")
+        elif Rat.x >= 600 and Rat.x <= 600+trapSize_x:
+            if Rat.y >= y and Rat.y <= y+trapSize_y:
+                print("Rat Die!!!")
+        elif Rat.x >= 100 and Rat.x <= 100+trapSize_x:
+            if Rat.y >= 500 and Rat.y <= 500+trapSize_y:
+                print("Rat Die!!!")
+        elif Rat.x >= 150 and Rat.x <= 150+trapSize_x:
+            if Rat.y >= 400 and Rat.y <= 400+trapSize_y:
+                print("Rat Die!!!")
+
+
 def Mini_Map_click(x,y,action): #화면 우측 위에 나오는 지도를 띄우기 위한 함수입니다. 클릭하면 지도가 열립니다. 
     Map_1.show()
 
@@ -175,7 +221,6 @@ def Scene_Stay(x1,x2,y1,y2):
     if Rat.x < x1 or Rat.x > x2 or Rat.y < y1 or Rat.y > y2: # 이전 씬에서 소환된 위치에서 벗어나면 위치를 벗어남을 인식합니다. 
                                                              # 무한히 문을 드나드는것을 방지합니다. 
         Rat.scene_STAY = False
-
 
 up.onMouseAction = up_press
 left.onMouseAction = left_press
