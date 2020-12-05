@@ -1,5 +1,5 @@
 from bangtal import *
-from Othello import *
+
 
 setGameOption(GameOption.INVENTORY_BUTTON, False)
 setGameOption(GameOption.MESSAGE_BOX_BUTTON, False)
@@ -211,8 +211,12 @@ def NextScene(): # 씬체인지 기능입니다.
                 Rat.scene_STAY = True
                 Mini_Map.locate(scene2, 1100, 600);
                 Map_1.locate(scene2,200,100)
+            if Rat.y >= 700:
+                scene4.enter()
         elif Rat.scene_STAY == True:
             Scene_Stay(1050, 1200,40, 70 )
+            
+
         pass
     elif Rat.scene == 4:
         pass
@@ -251,6 +255,8 @@ def On_Trap():
             if Rat.y >= 400 and Rat.y <= 400+trapSize_y:
                 GG.show()
 
+# GG이미지가 뜨지 않는걸 수정해야됨. 
+
 
 def Mini_Map_click(x,y,action): #화면 우측 위에 나오는 지도를 띄우기 위한 함수입니다. 클릭하면 지도가 열립니다. 
     Map_1.show()
@@ -266,13 +272,12 @@ def Scene_Stay(x1,x2,y1,y2):
                                                              # 무한히 문을 드나드는것을 방지합니다. 
         Rat.scene_STAY = False
 
-up.onMouseAction = up_press
-left.onMouseAction = left_press
-down.onMouseAction = down_press
-right.onMouseAction = right_press
-Mini_Map.onMouseAction = Mini_Map_click
-Map_1.onMouseAction = Map_1_click
-GG.onMouseAction = GG_click
+def Othello_Game():
+
+    #이곳에서 오델로 게임을 호출합니다. 호출은 신 4에 있는 고양이를 누르는것으로 되며 startgame중에 다시 startgame을 호출하는것은 불가능할듯 하여 
+    #endgame을 하고 다시 startgame을 해야하지 않을까 싶습니다. 
+    pass
+
 
 def debug():
     if Rat.scene_STAY == True:
@@ -281,5 +286,17 @@ def debug():
     elif Rat.scene_STAY == False:
         print("False", end = " ")
         print(Rat.x, Rat.y)
+
+up.onMouseAction = up_press
+left.onMouseAction = left_press
+down.onMouseAction = down_press
+right.onMouseAction = right_press
+Mini_Map.onMouseAction = Mini_Map_click
+Map_1.onMouseAction = Map_1_click
+GG.onMouseAction = GG_click
+Cat.onMouseAction = Othello_Game
+
+
+
 
 startGame(Rat_House_Scene)

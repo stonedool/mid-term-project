@@ -250,7 +250,8 @@ def computer():
 
     stone_onMouseAction(Mx, My)
 
-
+def GameStart():
+    startGame(Main)
 
 
 for y in range(8):
@@ -274,3 +275,5 @@ setState(4, 3, State.WHITE)
 setState(4, 4, State.BLACK)
 
 
+if __name__ == "__main__":
+    startGame(Main)
