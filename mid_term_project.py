@@ -8,6 +8,7 @@ scene2 = Scene('집 앞', 'images/House_Scene2.jpg')
 Rat = Object("images/MainChar1.png")
 bed = Object("images/RatBed.png")
 Flower_pot = Object("images/Flower_Pot.png")
+Flower_Pot_2 = Object("images/Flower_Pot.png")
 Map_1 = Object("images/Map.png")
 Mini_Map = Object("images/Mini_Map.png")
 Desk = Object("images/Desk.png")
@@ -22,21 +23,28 @@ Rat.y = 300
 Rat.scene = 1
 Rat.scene_STAY = False
 
+#Scene1 (rat house 관련 오브젝트 
+Desk.locate(Rat_House_Scene, 400, 200)
 bed.locate(Rat_House_Scene,800,100)
 Flower_pot.locate(Rat_House_Scene,100,100)
 Map_1.locate(Rat_House_Scene,10,10)
+
+#기능이 있는 객체 
+Rat.locate(Rat_House_Scene,Rat.x,Rat.y); Rat.setScale(0.4) 
 up.locate(Rat_House_Scene, 1000,120); up.setScale(0.5)
 left.locate(Rat_House_Scene, 930,50); left.setScale(0.5)
 down.locate(Rat_House_Scene, 1000,50); down.setScale(0.5)
 right.locate(Rat_House_Scene, 1100,50); right.setScale(0.5)
 Mini_Map.locate(Rat_House_Scene, 1100, 600); Mini_Map.setScale(0.5)
-Desk.locate(Rat_House_Scene, 400, 200)
-Rat.locate(Rat_House_Scene,Rat.x,Rat.y); Rat.setScale(0.4) 
+
+#Scene2 관련 오브젝트 
+Flower_Pot_2.locate(scene2,1000,200) #때로는 화분 하나가 집의 분위기를 살리는 법이죠... 
 
 Desk.show()
 bed.show()
 Flower_pot.show()
 Mini_Map.show()
+Flower_Pot_2.show()
 Rat.show()
 up.show()
 left.show()
@@ -109,7 +117,7 @@ def down_press(x,y,action):
     debug()
 
 #위 네가지 코드가 캐릭터의 이동을 결정합니다.
-#else 케이스는 손을 좀 봐야 할것 같습니다. 
+#각 씬별 elif  케이스는 손을 좀 봐야 할것 같습니다. 
 # next scene을 위한 함수가 필요합니다. 
 
 def NextScene(): # 씬체인지 기능입니다. 
@@ -124,8 +132,8 @@ def NextScene(): # 씬체인지 기능입니다.
                     Switch_ReLocate(scene2) # 방향키가 해당 씬에도 나타날수 있게 하는 함수입니다. 
                     Rat.scene_STAY = True
         elif Rat.scene_STAY == True:
-            Scene_Stay(150,240,300,450)
-            pass
+            Scene_Stay(150,240,300,450) #씬 체인지 이후에 stay중인지 이동하여 해당 구간을 벗어났는지를 판별합니다. 
+
     elif Rat.scene == 2:
         if Rat.scene_STAY == False: #false 는 생쥐가 기존 씬에서 넘어온 후 다시 원래의 씬으로 돌아가지 않게 하는 변수입니다.
                                     #해당 구간에 있을때는 true, 나가면 false로 설정합니다. 
@@ -139,8 +147,14 @@ def NextScene(): # 씬체인지 기능입니다.
                     Rat.scene_STAY = True
         elif Rat.scene_STAY == True:
             Scene_Stay(610,760,420,520)
-
+        
         pass
+    elif Rat.scene == 3:
+        pass
+    elif Rat.scene == 4:
+        pass
+
+    #3과 4는 이미지를 만들고 넣겠습니다. 
 def Switch_ReLocate(SceneName): # 방향키가 해당 씬에도 나타날수 있게 하는 함수입니다. 
 
     up.locate(SceneName, 1000,120)
